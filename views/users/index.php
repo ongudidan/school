@@ -16,11 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div>
 
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); 
-    ?>
-
-    <!-- wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww -->
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <div class="col-12 col-md-12 col-lg-12">
         <div class="card">
@@ -30,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-striped table-md">
-                        <tbody>
+                        <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Username</th>
@@ -41,7 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <th>Updated At</th>
                                 <th>Action</th>
                             </tr>
-
+                        </thead>
+                        <tbody>
                             <?php
                             $counter = $pagination->offset + 1;
                             foreach ($users as $user) { ?>
@@ -53,7 +50,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <td><?= Html::encode($user->phone) ?></td>
                                     <td><?= Html::encode(date('Y-m-d', strtotime($user->created_at))) ?></td>
                                     <td><?= Html::encode(date('Y-m-d', strtotime($user->updated_at))) ?></td>
-                                    <td><a href="<?= Url::to(['users/view', 'user_id' => $user->user_id]) ?>" class="btn btn-primary">Detail</a></td>
+                                    <td>
+                                        <a href="<?= Url::to(['users/view', 'user_id' => $user->user_id]) ?>" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="View"><i class="fas fa-eye"></i></a>
+                                        <a href="<?= Url::to(['users/update', 'user_id' => $user->user_id]) ?>" class="btn btn-success btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="<?= Url::to(['users/delete', 'user_id' => $user->user_id]) ?>" class="btn btn-danger btn-action" data-toggle="tooltip" title="Delete" data-confirm="Are you sure? This action cannot be undone." data-method="post"><i class="fas fa-trash"></i></a>
+                                    </td>
                                 </tr>
                             <?php
                                 $counter++;
