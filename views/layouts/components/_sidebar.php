@@ -8,16 +8,16 @@ $currentUrl = Url::current();
 // Define menu items
 $menuItems = [
     ['label' => 'Users', 'url' => '/users/index', 'submenu' => [
-        ['label' => 'All classes', 'url' => '/users/index'],
-        ['label' => 'Create Class', 'url' => '/users/create'],
+        ['label' => 'All Users', 'url' => '/users/index'],
+        ['label' => 'Create User', 'url' => '/users/create'],
     ]],
     ['label' => 'Teachers', 'url' => '/teachers/index', 'submenu' => [
-        ['label' => 'All classes', 'url' => '/teachers/index'],
-        ['label' => 'Create Class', 'url' => '/teachers/create'],
+        ['label' => 'All Teachers', 'url' => '/teachers/index'],
+        ['label' => 'Create Teacher', 'url' => '/teachers/create'],
     ]],
     ['label' => 'Students', 'url' => '/students/index', 'submenu' => [
-        ['label' => 'All classes', 'url' => '/students/index'],
-        ['label' => 'Create Class', 'url' => '/students/create'],
+        ['label' => 'All Students', 'url' => '/students/index'],
+        ['label' => 'Create student', 'url' => '/students/create'],
     ]],
     ['label' => 'Classes', 'url' => '#', 'submenu' => [
         ['label' => 'All classes', 'url' => '/classes/index'],
@@ -38,7 +38,7 @@ $menuItems = [
                 $isActive = ($currentUrl === Url::to($item['url']));
                 $hasSubmenu = isset($item['submenu']);
                 $submenuActive = false;
-                
+
                 if ($hasSubmenu) {
                     // Check if any submenu item is active
                     foreach ($item['submenu'] as $subitem) {
