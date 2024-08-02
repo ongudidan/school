@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use app\models\Users;
 use app\models\UsersSearch;
-use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,7 +13,6 @@ use yii\filters\VerbFilter;
  */
 class UsersController extends Controller
 {
-    public $layout = 'DashboardLayout';
     /**
      * @inheritDoc
      */
@@ -42,21 +40,10 @@ class UsersController extends Controller
     {
         $searchModel = new UsersSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        // $users = Users::find()->all();
-        $query = Users::find();
-
-        $pagination = new Pagination([
-            'defaultPageSize' => 30,
-            'totalCount' => $query->count(),
-        ]);
-
-        $users = $query->offset($pagination->offset)->limit($pagination->limit)->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'users' => $users,
-            'pagination' => $pagination,
         ]);
     }
 

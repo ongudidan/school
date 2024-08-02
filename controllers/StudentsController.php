@@ -13,7 +13,6 @@ use yii\filters\VerbFilter;
  */
 class StudentsController extends Controller
 {
-    public $layout='DashboardLayout';
     /**
      * @inheritDoc
      */

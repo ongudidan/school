@@ -4,7 +4,9 @@ namespace app\controllers;
 
 use app\models\Teachers;
 use app\models\TeachersSearch;
-use yii\data\Pagination;
+use App\Models\User;
+use app\models\Users;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,8 +16,6 @@ use yii\filters\VerbFilter;
  */
 class TeachersController extends Controller
 {
-    public $layout='DashboardLayout';
-
     /**
      * @inheritDoc
      */
@@ -43,19 +43,10 @@ class TeachersController extends Controller
     {
         $searchModel = new TeachersSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $query = Teachers::find();
-        $pagination = new Pagination([
-            'defaultPageSize' => 30,
-            'totalCount' => $query->count(),
-        ]);
-
-        $teachers = $query->offset($pagination->offset)->limit($pagination->limit)->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'teachers' => $teachers,
-            'pagination' => $pagination,
         ]);
     }
 
@@ -80,20 +71,35 @@ class TeachersController extends Controller
     public function actionCreate()
     {
         $model = new Teachers();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'teacher_id' => $model->teacher_id]);
+        $user = new Users();
+    
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $staffNo = $model->staff_no;
+            $user->username = $user->password = Yii::$app->security->generatePasswordHash($staffNo);
+    
+            $transaction = Yii::$app->db->beginTransaction();
+    
+            try {
+                if ($user->save()) {
+                    $model->user_id = $user->user_id;
+                    if ($model->save()) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'teacher_id' => $model->teacher_id]);
+                    }
+                }
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'Failed to save.');
+            } catch (\Exception $e) {
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'Error: ' . $e->getMessage());
             }
         } else {
             $model->loadDefaultValues();
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+    
+        return $this->render('create', ['model' => $model]);
     }
-
+    
     /**
      * Updates an existing Teachers model.
      * If update is successful, the browser will be redirected to the 'view' page.

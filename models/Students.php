@@ -11,7 +11,7 @@ use Yii;
  * @property int $user_id
  * @property string $first_name
  * @property string $last_name
- * @property string $dob
+ * @property int $dob
  * @property string $gender
  * @property string|null $address
  * @property int|null $class_id
@@ -41,8 +41,7 @@ class Students extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'first_name', 'last_name', 'dob', 'gender'], 'required'],
-            [['user_id', 'class_id', 'created_at', 'updated_at'], 'integer'],
-            [['dob'], 'safe'],
+            [['user_id', 'dob', 'class_id', 'created_at', 'updated_at'], 'integer'],
             [['address'], 'string'],
             [['first_name', 'last_name'], 'string', 'max' => 255],
             [['gender'], 'string', 'max' => 1],

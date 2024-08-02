@@ -1,10 +1,10 @@
 <?php
 
-use yii\bootstrap5\Modal;
+use app\models\Users;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\LinkPager;
-use yii\widgets\Pjax;
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
 
 /** @var yii\web\View $this */
 /** @var app\models\UsersSearch $searchModel */
@@ -13,79 +13,35 @@ use yii\widgets\Pjax;
 $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div>
+<div class="users-index">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); 
-    ?>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-<p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
+    <p>
+        <?= Html::a('Create Users', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <div class="col-12 col-md-12 col-lg-12">
-        <div class="card">
-            <div class="card-header">
-                <h4>USERS</h4>
-            </div>
-            <div class="card-body p-0">
-                <?php Pjax::begin(['id' => 'user-grid', 'timeout' => 10000, 'enablePushState' => false]) ?>
-                <div class="table-responsive">
-                    <table class="table table-striped table-md">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Username</th>
-                                <th>Role</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            Pjax::begin();
-                            $counter = $pagination->offset + 1;
-                            foreach ($users as $user) { ?>
-                                <tr>
-                                    <td><?= $counter.'.' ?></td>
-                                    <td><?= Html::encode($user->username) ?></td>
-                                    <td><?= Html::encode($user->role) ?></td>
-                                    <td><?= Html::encode($user->email) ?></td>
-                                    <td><?= Html::encode($user->phone) ?></td>
-                                    <td><?= Html::encode(date('Y-m-d', strtotime($user->created_at))) ?></td>
-                                    <td><?= Html::encode(date('Y-m-d', strtotime($user->updated_at))) ?></td>
-                                    <td>
-                                        <a href="<?= Url::to(['users/view', 'user_id' => $user->user_id]) ?>" id="view" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="View"><i class="fas fa-eye"></i></a>
-                                        <a href="<?= Url::to(['users/update', 'user_id' => $user->user_id]) ?>" id="edit" class="btn btn-success btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                        <a href="<?= Url::to(['users/delete', 'user_id' => $user->user_id]) ?>" id="delete" class="btn btn-danger btn-action" data-toggle="tooltip" title="Delete" data-confirm="Are you sure? This action cannot be undone." data-method="post"><i class="fas fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                            <?php
-                                $counter++;
-                            }
-                            Pjax::end() ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="card-footer text-right">
-                <nav class="d-inline-block">
-                    <?= LinkPager::widget([
-                        'pagination' => $pagination,
-                        'options' => ['class' => 'pagination mb-0'],
-                        'linkOptions' => ['class' => 'page-link', 'data-pjax' => '1'],
-                        'pageCssClass' => 'page-item',
-                        'prevPageCssClass' => 'page-item',
-                        'nextPageCssClass' => 'page-item',
-                        'firstPageCssClass' => 'page-item',
-                        'lastPageCssClass' => 'page-item',
-                        'activePageCssClass' => 'active',
-                        'disabledPageCssClass' => 'disabled',
-                    ]) ?>
-                </nav>
-            </div>
-            <?php Pjax::end() ?>
-        </div>
-    </div>
+
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'user_id',
+            'username',
+            'password',
+            'created_at',
+            'updated_at',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Users $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'user_id' => $model->user_id]);
+                 }
+            ],
+        ],
+    ]); ?>
+
+
 </div>

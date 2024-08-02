@@ -3,8 +3,8 @@
 use app\models\Teachers;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\LinkPager;
-use yii\widgets\Pjax;
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
 
 /** @var yii\web\View $this */
 /** @var app\models\TeachersSearch $searchModel */
@@ -23,72 +23,32 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <div class="col-12 col-md-12 col-lg-12">
-        <div class="card">
-            <div class="card-header">
-                <h4>TEACHERS</h4>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-striped table-md">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>DOB</th>
-                                <th>Gender</th>
-                                <th>Address</th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            Pjax::begin();
-                            $counter = $pagination->offset + 1;
-                            foreach ($teachers as $teacher) { ?>
-                                <tr>
-                                    <td><?= $counter . '.' ?></td>
-                                    <td><?= Html::encode($teacher->first_name) ?></td>
-                                    <td><?= Html::encode($teacher->last_name) ?></td>
-                                    <td><?= Html::encode($teacher->dob) ?></td>
-                                    <td><?= Html::encode($teacher->gender) ?></td>
-                                    <td><?= Html::encode($teacher->address) ?></td>
-                                    <td><?= Html::encode(date('Y-m-d', strtotime($teacher->created_at))) ?></td>
-                                    <td><?= Html::encode(date('Y-m-d', strtotime($teacher->updated_at))) ?></td>
-                                    <td>
-                                        <a href="<?= Url::to(['teachers/view', 'teacher_id' => $teacher->teacher_id]) ?>" id="view" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="View"><i class="fas fa-eye"></i></a>
-                                        <a href="<?= Url::to(['teachers/update', 'teacher_id' => $teacher->teacher_id]) ?>" id="edit" class="btn btn-success btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                        <a href="<?= Url::to(['teachers/delete', 'teacher_id' => $teacher->teacher_id]) ?>" id="delete" class="btn btn-danger btn-action" data-toggle="tooltip" title="Delete" data-confirm="Are you sure? This action cannot be undone." data-method="post"><i class="fas fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                            <?php
-                                $counter++;
-                            }
-                            Pjax::end();
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="card-footer text-right">
-                <nav class="d-inline-block">
-                    <?= LinkPager::widget([
-                        'pagination' => $pagination,
-                        'options' => ['class' => 'pagination mb-0'],
-                        'linkOptions' => ['class' => 'page-link'],
-                        'pageCssClass' => 'page-item',
-                        'prevPageCssClass' => 'page-item',
-                        'nextPageCssClass' => 'page-item',
-                        'firstPageCssClass' => 'page-item',
-                        'lastPageCssClass' => 'page-item',
-                        'activePageCssClass' => 'active',
-                        'disabledPageCssClass' => 'disabled',
-                    ]) ?>
-                </nav>
-            </div>
-        </div>
-    </div>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'teacher_id',
+            'user_id',
+            'first_name',
+            'last_name',
+            'staff_no',
+            //'phone',
+            //'email:email',
+            //'dob',
+            //'gender',
+            //'address:ntext',
+            //'created_at',
+            //'updated_at',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Teachers $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'teacher_id' => $model->teacher_id]);
+                 }
+            ],
+        ],
+    ]); ?>
+
+
 </div>

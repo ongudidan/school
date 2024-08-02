@@ -11,7 +11,10 @@ use Yii;
  * @property int $user_id
  * @property string $first_name
  * @property string $last_name
- * @property string $dob
+ * @property string $staff_no
+ * @property string $phone
+ * @property string $email
+ * @property int $dob
  * @property string $gender
  * @property string|null $address
  * @property int $created_at
@@ -38,12 +41,12 @@ class Teachers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'first_name', 'last_name', 'gender'], 'required'],
-            [['user_id', 'created_at', 'updated_at'], 'integer'],
-            [['dob'], 'safe'],
+            [['first_name', 'last_name', 'staff_no', 'phone', 'email', 'dob', 'gender'], 'required'],
+            [['user_id', 'dob', 'created_at', 'updated_at'], 'integer'],
             [['address'], 'string'],
-            [['first_name', 'last_name'], 'string', 'max' => 255],
+            [['first_name', 'last_name', 'staff_no', 'phone', 'email'], 'string', 'max' => 255],
             [['gender'], 'string', 'max' => 1],
+            [['staff_no'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'user_id']],
         ];
     }
@@ -58,6 +61,9 @@ class Teachers extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
+            'staff_no' => 'Staff No',
+            'phone' => 'Phone',
+            'email' => 'Email',
             'dob' => 'Dob',
             'gender' => 'Gender',
             'address' => 'Address',

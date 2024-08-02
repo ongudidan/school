@@ -17,8 +17,8 @@ class TeachersSearch extends Teachers
     public function rules()
     {
         return [
-            [['teacher_id', 'user_id', 'created_at', 'updated_at'], 'integer'],
-            [['first_name', 'last_name', 'dob', 'gender', 'address'], 'safe'],
+            [['teacher_id', 'user_id', 'dob', 'created_at', 'updated_at'], 'integer'],
+            [['first_name', 'last_name', 'staff_no', 'phone', 'email', 'gender', 'address'], 'safe'],
         ];
     }
 
@@ -67,6 +67,9 @@ class TeachersSearch extends Teachers
 
         $query->andFilterWhere(['like', 'first_name', $this->first_name])
             ->andFilterWhere(['like', 'last_name', $this->last_name])
+            ->andFilterWhere(['like', 'staff_no', $this->staff_no])
+            ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'gender', $this->gender])
             ->andFilterWhere(['like', 'address', $this->address]);
 

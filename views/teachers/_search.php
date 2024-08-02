@@ -23,7 +23,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'last_name') ?>
 
-    <?= $form->field($model, 'dob') ?>
+    <?= $form->field($model, 'staff_no') ?>
+
+    <?php // echo $form->field($model, 'phone') ?>
+
+    <?php // echo $form->field($model, 'email') ?>
+
+    <?php // echo $form->field($model, 'dob') ?>
 
     <?php // echo $form->field($model, 'gender') ?>
 
