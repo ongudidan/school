@@ -2,7 +2,11 @@
 
 namespace app\models;
 
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+
 use Yii;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "teachers".
@@ -27,6 +31,17 @@ use Yii;
  */
 class Teachers extends \yii\db\ActiveRecord
 {
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+                // 'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
     /**
      * {@inheritdoc}
      */
@@ -71,6 +86,21 @@ class Teachers extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+    public static function generateStaffId()
+    {
+        $year = date('Y');
+        $prefix = 'TUM/';
+        $yearPrefix = '/' . $year;
+
+        $lastRecord = self::find()->orderBy(['teacher_id' => SORT_DESC])->one();
+        $lastNumber = $lastRecord ? intval(substr($lastRecord->staff_no, 4, 5)) : 0;
+        $newNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
+
+        return $prefix . $newNumber . $yearPrefix;
+    }
+
+
 
     /**
      * Gets query for [[Classes]].
