@@ -18,19 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); 
     ?>
 
-    <p>
-        <?= Html::button('Create User', ['value' => Url::to('users/create'), 'class' => 'btn btn-success', 'id' => 'createButton']) ?>
+<p>
+        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <?php
-    Modal::begin([
-        'id' => 'create',
-        'size' => 'modal-lg'
-    ]);
-    echo "<div id='modalContent'></div>";
-    Modal::end();
-    ?>
-
     <div class="col-12 col-md-12 col-lg-12">
         <div class="card">
             <div class="card-header">

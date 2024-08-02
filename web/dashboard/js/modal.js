@@ -1,12 +1,6 @@
 $(function(){
     $('#createButton').click(function(){
-        $('#create').modal('show')
-        .find('#modalContent')
-        .load($(this).attr('value'))
-    });
-
-    $('#viewLink').click(function(){
-        $('#view').modal('show')
+        $('#modal').modal('create')
         .find('#modalContent')
         .load($(this).attr('value'))
     });

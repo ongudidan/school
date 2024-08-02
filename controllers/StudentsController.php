@@ -2,19 +2,18 @@
 
 namespace app\controllers;
 
-use app\models\Users;
-use app\models\UsersSearch;
-use yii\data\Pagination;
+use app\models\Students;
+use app\models\StudentsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * UsersController implements the CRUD actions for Users model.
+ * StudentsController implements the CRUD actions for Students model.
  */
-class UsersController extends Controller
+class StudentsController extends Controller
 {
-    public $layout = 'DashboardLayout';
+    public $layout='DashboardLayout';
     /**
      * @inheritDoc
      */
@@ -34,57 +33,46 @@ class UsersController extends Controller
     }
 
     /**
-     * Lists all Users models.
+     * Lists all Students models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new UsersSearch();
+        $searchModel = new StudentsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        // $users = Users::find()->all();
-        $query = Users::find();
-
-        $pagination = new Pagination([
-            'defaultPageSize' => 30,
-            'totalCount' => $query->count(),
-        ]);
-
-        $users = $query->offset($pagination->offset)->limit($pagination->limit)->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'users' => $users,
-            'pagination' => $pagination,
         ]);
     }
 
     /**
-     * Displays a single Users model.
-     * @param int $user_id User ID
+     * Displays a single Students model.
+     * @param int $student_id Student ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($user_id)
+    public function actionView($student_id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($user_id),
+            'model' => $this->findModel($student_id),
         ]);
     }
 
     /**
-     * Creates a new Users model.
+     * Creates a new Students model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Users();
+        $model = new Students();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'user_id' => $model->user_id]);
+                return $this->redirect(['view', 'student_id' => $model->student_id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -96,18 +84,18 @@ class UsersController extends Controller
     }
 
     /**
-     * Updates an existing Users model.
+     * Updates an existing Students model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $user_id User ID
+     * @param int $student_id Student ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($user_id)
+    public function actionUpdate($student_id)
     {
-        $model = $this->findModel($user_id);
+        $model = $this->findModel($student_id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'user_id' => $model->user_id]);
+            return $this->redirect(['view', 'student_id' => $model->student_id]);
         }
 
         return $this->render('update', [
@@ -116,29 +104,29 @@ class UsersController extends Controller
     }
 
     /**
-     * Deletes an existing Users model.
+     * Deletes an existing Students model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $user_id User ID
+     * @param int $student_id Student ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($user_id)
+    public function actionDelete($student_id)
     {
-        $this->findModel($user_id)->delete();
+        $this->findModel($student_id)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Users model based on its primary key value.
+     * Finds the Students model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $user_id User ID
-     * @return Users the loaded model
+     * @param int $student_id Student ID
+     * @return Students the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($user_id)
+    protected function findModel($student_id)
     {
-        if (($model = Users::findOne(['user_id' => $user_id])) !== null) {
+        if (($model = Students::findOne(['student_id' => $student_id])) !== null) {
             return $model;
         }
 
