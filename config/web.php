@@ -47,6 +47,10 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'home'=>'site/index',
+                'users'=>'users/index',
+                'user/view'=>'user/view',
+                'user/update'=>'user/update'
             ],
         ],
         

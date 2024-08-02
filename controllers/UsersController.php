@@ -46,14 +46,11 @@ class UsersController extends Controller
         $query = Users::find();
 
         $pagination = new Pagination([
-            'defaultPageSize' => 10,
+            'defaultPageSize' => 30,
             'totalCount' => $query->count(),
         ]);
 
-        $users = $query->offset($pagination->offset)
-        ->limit($pagination->limit)
-        ->all();
-
+        $users = $query->offset($pagination->offset)->limit($pagination->limit)->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -93,7 +90,7 @@ class UsersController extends Controller
             $model->loadDefaultValues();
         }
 
-        return $this->render('create', [
+        return $this->renderAjax('create', [
             'model' => $model,
         ]);
     }

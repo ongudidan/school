@@ -28,6 +28,7 @@ class DashboardAsset extends AssetBundle
     ];
     public $js = [
         "web/dashboard/js/app.min.js",
+        "web/dashboard/js/modal.js",
         "web/dashboard/bundles/chartjs/chart.min.js",
         "web/dashboard/bundles/jquery.sparkline.min.js",
         "web/dashboard/bundles/apexcharts/apexcharts.min.js",

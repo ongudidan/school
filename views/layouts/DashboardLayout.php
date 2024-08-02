@@ -9,10 +9,13 @@ use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
+use yii\widgets\PjaxAsset;
 
 use function Termwind\render;
 
 DashboardAsset::register($this);
+PjaxAsset::register($this);
+
 
 $this->registerCsrfMetaTags();
 $this->registerMetaTag(['charset' => Yii::$app->charset], 'charset');
