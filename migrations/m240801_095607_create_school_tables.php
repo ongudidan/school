@@ -7,7 +7,7 @@ use yii\db\Migration;
  */
 class m240801_095607_create_school_tables extends Migration
 {
-         /**
+    /**
      * {@inheritdoc}
      */
     public function safeUp()
@@ -39,11 +39,11 @@ class m240801_095607_create_school_tables extends Migration
             'phone' => $this->string()->notNull(),
             'email' => $this->string()->notNull(),
             'dob' => $this->integer()->notNull(),
-            'gender' => $this->string(1)->notNull(),
+            'gender' => $this->string(20)->notNull(),
             'address' => $this->text(),
             'created_at' => $this->integer()->notNull()->defaultValue(time()),
             'updated_at' => $this->integer()->notNull()->defaultValue(time()),
-            'FOREIGN KEY ([[user_id]]) REFERENCES {{%users}} ([[user_id]])' . 
+            'FOREIGN KEY ([[user_id]]) REFERENCES {{%users}} ([[user_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
         ]);
 
@@ -52,9 +52,9 @@ class m240801_095607_create_school_tables extends Migration
             'teacher_id' => $this->integer()->notNull(),
             'subject_id' => $this->integer()->notNull(),
             'PRIMARY KEY (teacher_id, subject_id)',
-            'FOREIGN KEY ([[teacher_id]]) REFERENCES {{%teachers}} ([[teacher_id]])' . 
+            'FOREIGN KEY ([[teacher_id]]) REFERENCES {{%teachers}} ([[teacher_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
-            'FOREIGN KEY ([[subject_id]]) REFERENCES {{%subjects}} ([[subject_id]])' . 
+            'FOREIGN KEY ([[subject_id]]) REFERENCES {{%subjects}} ([[subject_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
         ]);
 
@@ -62,11 +62,9 @@ class m240801_095607_create_school_tables extends Migration
         $this->createTable('{{%classes}}', [
             'class_id' => $this->primaryKey(),
             'class_name' => $this->string()->notNull(),
-            'teacher_id' => $this->integer(),
+            'description' => $this->string()->notNull(),
             'created_at' => $this->integer()->notNull()->defaultValue(time()),
             'updated_at' => $this->integer()->notNull()->defaultValue(time()),
-            'FOREIGN KEY ([[teacher_id]]) REFERENCES {{%teachers}} ([[teacher_id]])' . 
-                $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
         ]);
 
         // Create students table
@@ -75,16 +73,39 @@ class m240801_095607_create_school_tables extends Migration
             'user_id' => $this->integer()->notNull(),
             'first_name' => $this->string()->notNull(),
             'last_name' => $this->string()->notNull(),
+            'student_no' => $this->string()->notNull(),
             'dob' => $this->integer()->notNull(),
-            'gender' => $this->string(1)->notNull(),
+            'gender' => $this->string(20)->notNull(),
             'address' => $this->text(),
             'class_id' => $this->integer(),
             'created_at' => $this->integer()->notNull()->defaultValue(time()),
             'updated_at' => $this->integer()->notNull()->defaultValue(time()),
-            'FOREIGN KEY ([[user_id]]) REFERENCES {{%users}} ([[user_id]])' . 
+            'FOREIGN KEY ([[user_id]]) REFERENCES {{%users}} ([[user_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
-            'FOREIGN KEY ([[class_id]]) REFERENCES {{%classes}} ([[class_id]])' . 
+        ]);
+
+        // Create class_students table
+        $this->createTable('{{%class_students}}', [
+            'class_students_id' => $this->primaryKey(),
+            'class_id' => $this->integer(),
+            'student_id' => $this->integer(),
+            'FOREIGN KEY ([[student_id]]) REFERENCES {{%students}} ([[student_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
+            'FOREIGN KEY ([[class_id]]) REFERENCES {{%classes}} ([[class_id]])' .
+                $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
+
+        ]);
+
+        // Create class_teachers table
+        $this->createTable('{{%class_teachers}}', [
+            'class_teahers_id' => $this->primaryKey(),
+            'class_id' => $this->integer(),
+            'teacher_id' => $this->integer(),
+            'FOREIGN KEY ([[teacher_id]]) REFERENCES {{%teachers}} ([[teacher_id]])' .
+                $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
+            'FOREIGN KEY ([[class_id]]) REFERENCES {{%classes}} ([[class_id]])' .
+                $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
+
         ]);
 
         // Create courses table
@@ -102,9 +123,9 @@ class m240801_095607_create_school_tables extends Migration
             'student_id' => $this->integer()->notNull(),
             'course_id' => $this->integer()->notNull(),
             'enrolled_at' => $this->integer()->notNull()->defaultValue(time()),
-            'FOREIGN KEY ([[student_id]]) REFERENCES {{%students}} ([[student_id]])' . 
+            'FOREIGN KEY ([[student_id]]) REFERENCES {{%students}} ([[student_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
-            'FOREIGN KEY ([[course_id]]) REFERENCES {{%courses}} ([[course_id]])' . 
+            'FOREIGN KEY ([[course_id]]) REFERENCES {{%courses}} ([[course_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
         ]);
 
@@ -117,9 +138,9 @@ class m240801_095607_create_school_tables extends Migration
             'status' => $this->string(1)->notNull(),
             'created_at' => $this->integer()->notNull()->defaultValue(time()),
             'updated_at' => $this->integer()->notNull()->defaultValue(time()),
-            'FOREIGN KEY ([[student_id]]) REFERENCES {{%students}} ([[student_id]])' . 
+            'FOREIGN KEY ([[student_id]]) REFERENCES {{%students}} ([[student_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
-            'FOREIGN KEY ([[class_id]]) REFERENCES {{%classes}} ([[class_id]])' . 
+            'FOREIGN KEY ([[class_id]]) REFERENCES {{%classes}} ([[class_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
         ]);
 
@@ -132,9 +153,9 @@ class m240801_095607_create_school_tables extends Migration
             'grade' => $this->string()->notNull(),
             'created_at' => $this->integer()->notNull()->defaultValue(time()),
             'updated_at' => $this->integer()->notNull()->defaultValue(time()),
-            'FOREIGN KEY ([[student_id]]) REFERENCES {{%students}} ([[student_id]])' . 
+            'FOREIGN KEY ([[student_id]]) REFERENCES {{%students}} ([[student_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
-            'FOREIGN KEY ([[subject_id]]) REFERENCES {{%subjects}} ([[subject_id]])' . 
+            'FOREIGN KEY ([[subject_id]]) REFERENCES {{%subjects}} ([[subject_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
         ]);
 
@@ -165,9 +186,9 @@ class m240801_095607_create_school_tables extends Migration
             'child' => $this->string(64)->notNull(),
             'PRIMARY KEY (parent, child)',
             'KEY child (child)',
-            'FOREIGN KEY ([[parent]]) REFERENCES {{%auth_item}} ([[name]])' . 
+            'FOREIGN KEY ([[parent]]) REFERENCES {{%auth_item}} ([[name]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
-            'FOREIGN KEY ([[child]]) REFERENCES {{%auth_item}} ([[name]])' . 
+            'FOREIGN KEY ([[child]]) REFERENCES {{%auth_item}} ([[name]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
         ]);
 
@@ -176,7 +197,7 @@ class m240801_095607_create_school_tables extends Migration
             'user_id' => $this->string(64)->notNull(),
             'created_at' => $this->integer(),
             'PRIMARY KEY (item_name, user_id)',
-            'FOREIGN KEY ([[item_name]]) REFERENCES {{%auth_item}} ([[name]])' . 
+            'FOREIGN KEY ([[item_name]]) REFERENCES {{%auth_item}} ([[name]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
         ]);
     }
@@ -197,6 +218,8 @@ class m240801_095607_create_school_tables extends Migration
         $this->dropTable('{{%attendance}}');
         $this->dropTable('{{%enrollments}}');
         $this->dropTable('{{%courses}}');
+        $this->dropTable('{{%class_teachers}}');
+        $this->dropTable('{{%class_students}}');
         $this->dropTable('{{%students}}');
         $this->dropTable('{{%classes}}');
         $this->dropTable('{{%teacher_subject}}'); // Drop the new junction table

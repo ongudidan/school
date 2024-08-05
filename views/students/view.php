@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dob',
             'gender',
             'address:ntext',
-            'class_id',
+            'student_no',
             'created_at',
             'updated_at',
         ],

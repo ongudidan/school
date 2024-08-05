@@ -2,16 +2,16 @@
 
 namespace app\controllers;
 
-use app\models\Users;
-use app\models\UsersSearch;
+use app\models\ClassTeachers;
+use app\models\ClassTeachersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * UsersController implements the CRUD actions for Users model.
+ * ClassTeachersController implements the CRUD actions for ClassTeachers model.
  */
-class UsersController extends Controller
+class ClassTeachersController extends Controller
 {
     /**
      * @inheritDoc
@@ -24,6 +24,7 @@ class UsersController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
+                        'delete' => ['POST'],
                     ],
                 ],
             ]
@@ -31,71 +32,69 @@ class UsersController extends Controller
     }
 
     /**
-     * Lists all Users models.
+     * Lists all ClassTeachers models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $users = Users::find()->orderBy(['created_at'=>SORT_DESC])->all();
-        $searchModel = new UsersSearch();
+        $searchModel = new ClassTeachersSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'users' => $users,
         ]);
     }
 
     /**
-     * Displays a single Users model.
-     * @param int $user_id User ID
+     * Displays a single ClassTeachers model.
+     * @param int $class_teahers_id Class Teahers ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($user_id)
+    public function actionView($class_teahers_id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($user_id),
+            'model' => $this->findModel($class_teahers_id),
         ]);
     }
 
     /**
-     * Creates a new Users model.
+     * Creates a new ClassTeachers model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    
-    // public function actionCreate()
-    // {
-    //     $model = new Users();
+    public function actionCreate()
+    {
+        $model = new ClassTeachers();
 
-    //     if ($this->request->isPost) {
-    //         if ($model->load($this->request->post()) && $model->save()) {
-    //             return $this->redirect(['view', 'user_id' => $model->user_id]);
-    //         }
-    //     } else {
-    //         $model->loadDefaultValues();
-    //     }
-    //     return $this->render('create', [
-    //         'model' => $model,
-    //     ]);
-    // }
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'class_teahers_id' => $model->class_teahers_id]);
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
 
     /**
-     * Updates an existing Users model.
+     * Updates an existing ClassTeachers model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $user_id User ID
+     * @param int $class_teahers_id Class Teahers ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($user_id)
+    public function actionUpdate($class_teahers_id)
     {
-        $model = $this->findModel($user_id);
+        $model = $this->findModel($class_teahers_id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'user_id' => $model->user_id]);
+            return $this->redirect(['view', 'class_teahers_id' => $model->class_teahers_id]);
         }
 
         return $this->render('update', [
@@ -104,29 +103,29 @@ class UsersController extends Controller
     }
 
     /**
-     * Deletes an existing Users model.
+     * Deletes an existing ClassTeachers model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $user_id User ID
+     * @param int $class_teahers_id Class Teahers ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($user_id)
+    public function actionDelete($class_teahers_id)
     {
-        $this->findModel($user_id)->delete();
+        $this->findModel($class_teahers_id)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Users model based on its primary key value.
+     * Finds the ClassTeachers model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $user_id User ID
-     * @return Users the loaded model
+     * @param int $class_teahers_id Class Teahers ID
+     * @return ClassTeachers the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($user_id)
+    protected function findModel($class_teahers_id)
     {
-        if (($model = Users::findOne(['user_id' => $user_id])) !== null) {
+        if (($model = ClassTeachers::findOne(['class_teahers_id' => $class_teahers_id])) !== null) {
             return $model;
         }
 

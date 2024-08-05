@@ -18,7 +18,7 @@ class StudentsSearch extends Students
     {
         return [
             [['student_id', 'user_id', 'dob', 'class_id', 'created_at', 'updated_at'], 'integer'],
-            [['first_name', 'last_name', 'gender', 'address'], 'safe'],
+            [['first_name', 'student_no', 'last_name', 'gender', 'address'], 'safe'],
         ];
     }
 
@@ -40,18 +40,21 @@ class StudentsSearch extends Students
      */
     public function search($params)
     {
-        $query = Students::find();
+        $query = Students::find()->orderBy(['created_at'=>SORT_DESC]);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 20, // Set the page size to 20
+            ],
         ]);
 
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
+            // Uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
@@ -69,6 +72,7 @@ class StudentsSearch extends Students
         $query->andFilterWhere(['like', 'first_name', $this->first_name])
             ->andFilterWhere(['like', 'last_name', $this->last_name])
             ->andFilterWhere(['like', 'gender', $this->gender])
+            ->andFilterWhere(['like', 'student_no', $this->student_no])
             ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;

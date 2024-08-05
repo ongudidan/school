@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "classes".
@@ -19,6 +20,16 @@ use Yii;
  */
 class Classes extends \yii\db\ActiveRecord
 {
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'createdAtAttribute' => 'created_at',
+                'updatedAtAttribute' => 'updated_at',
+            ],
+        ];
+    }
     /**
      * {@inheritdoc}
      */
@@ -33,10 +44,9 @@ class Classes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['class_name'], 'required'],
-            [['teacher_id', 'created_at', 'updated_at'], 'integer'],
+            [['class_name', 'description'], 'required'],
+            [['created_at', 'updated_at'], 'integer'],
             [['class_name'], 'string', 'max' => 255],
-            [['teacher_id'], 'exist', 'skipOnError' => true, 'targetClass' => Teachers::class, 'targetAttribute' => ['teacher_id' => 'teacher_id']],
         ];
     }
 
@@ -48,7 +58,7 @@ class Classes extends \yii\db\ActiveRecord
         return [
             'class_id' => 'Class ID',
             'class_name' => 'Class Name',
-            'teacher_id' => 'Teacher ID',
+            'description' => 'Description',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

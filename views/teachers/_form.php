@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Teachers;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -22,7 +23,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'dob')->textInput() ?>
 
-    <?= $form->field($model, 'gender')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'gender')->dropDownList(
+        Teachers::getGenderOptions(),
+        ['prompt' => 'Select Gender']
+    ) ?>
 
     <?= $form->field($model, 'address')->textarea(['rows' => 6]) ?>
 

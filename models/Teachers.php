@@ -31,6 +31,10 @@ use yii\db\Expression;
  */
 class Teachers extends \yii\db\ActiveRecord
 {
+    // Define gender options
+    const GENDER_MALE = 'Male';
+    const GENDER_FEMALE = 'Female';
+
     public function behaviors()
     {
         return [
@@ -38,7 +42,6 @@ class Teachers extends \yii\db\ActiveRecord
                 'class' => TimestampBehavior::class,
                 'createdAtAttribute' => 'created_at',
                 'updatedAtAttribute' => 'updated_at',
-                // 'value' => new Expression('NOW()'),
             ],
         ];
     }
@@ -60,9 +63,22 @@ class Teachers extends \yii\db\ActiveRecord
             [['user_id', 'dob', 'created_at', 'updated_at'], 'integer'],
             [['address'], 'string'],
             [['first_name', 'last_name', 'staff_no', 'phone', 'email'], 'string', 'max' => 255],
-            [['gender'], 'string', 'max' => 1],
+            [['gender'], 'string'],
             [['staff_no'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'user_id']],
+        ];
+    }
+
+
+    /**
+     * Returns an array of gender options.
+     * @return array
+     */
+    public static function getGenderOptions()
+    {
+        return [
+            self::GENDER_MALE => 'Male',
+            self::GENDER_FEMALE => 'Female',
         ];
     }
 

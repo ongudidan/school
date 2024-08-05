@@ -7,22 +7,22 @@ $currentUrl = Url::current();
 
 // Define menu items
 $menuItems = [
-    ['label' => 'Users', 'url' => '/users/index', 'submenu' => [
-        ['label' => 'All Users', 'url' => '/users/index'],
-        ['label' => 'Create User', 'url' => '/users/create'],
-    ]],
-    ['label' => 'Teachers', 'url' => '/teachers/index', 'submenu' => [
+    ['label' => 'Users', 'icon' => 'monitor', 'url' => '/users/index'],
+    ['label' => 'Teachers', 'icon'=>'command', 'url' => '/teachers/index', 'submenu' => [
         ['label' => 'All Teachers', 'url' => '/teachers/index'],
         ['label' => 'Create Teacher', 'url' => '/teachers/create'],
     ]],
-    ['label' => 'Students', 'url' => '/students/index', 'submenu' => [
+    ['label' => 'Students', 'icon'=>'mail', 'url' => '/students/index', 'submenu' => [
         ['label' => 'All Students', 'url' => '/students/index'],
         ['label' => 'Create student', 'url' => '/students/create'],
     ]],
-    ['label' => 'Classes', 'url' => '#', 'submenu' => [
+    ['label' => 'Classes', 'icon'=>'copy', 'url' => '#', 'submenu' => [
         ['label' => 'All classes', 'url' => '/classes/index'],
         ['label' => 'Create Class', 'url' => '/classes/create'],
     ]],
+    ['label' => 'Class Teachers', 'icon' => 'monitor', 'url' => '/class-teachers/index'],
+    ['label' => 'Class Students', 'icon' => 'monitor', 'url' => '/class-students/index'],
+
 ];
 ?>
 
@@ -52,7 +52,7 @@ $menuItems = [
                 ?>
                 <li class="dropdown <?= $isActive ? 'active' : '' ?>">
                     <a href="<?= $hasSubmenu ? '#' : Url::to($item['url']) ?>" class="nav-link <?= $hasSubmenu ? 'menu-toggle has-dropdown' : '' ?>">
-                        <i data-feather="monitor"></i><span><?= htmlspecialchars($item['label']) ?></span>
+                        <i data-feather="<?= $item['icon']?>"></i><span><?= htmlspecialchars($item['label']) ?></span>
                     </a>
                     <?php if ($hasSubmenu) : ?>
                         <ul class="dropdown-menu">

@@ -17,7 +17,7 @@ class ClassesSearch extends Classes
     public function rules()
     {
         return [
-            [['class_id', 'teacher_id', 'created_at', 'updated_at'], 'integer'],
+            [['class_id', 'description', 'created_at', 'updated_at'], 'integer'],
             [['class_name'], 'safe'],
         ];
     }
@@ -59,7 +59,7 @@ class ClassesSearch extends Classes
         // grid filtering conditions
         $query->andFilterWhere([
             'class_id' => $this->class_id,
-            'teacher_id' => $this->teacher_id,
+            'description' => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

@@ -1,24 +1,24 @@
 <?php
 
-use app\models\Classes;
+use app\models\ClassTeachers;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
-/** @var app\models\ClassesSearch $searchModel */
+/** @var app\models\ClassTeachersSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Classes';
+$this->title = 'Class Teachers';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="classes-index">
+<div class="class-teachers-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Classes', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Class Teachers', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,15 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'class_id',
-            'class_name',
-            'description',
-            'created_at',
-            'updated_at',
+            'class_teahers_id',
+            'class.class_name',
+            'teacher.staff_no',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Classes $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'class_id' => $model->class_id]);
+                'urlCreator' => function ($action, ClassTeachers $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'class_teahers_id' => $model->class_teahers_id]);
                  }
             ],
         ],

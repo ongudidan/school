@@ -27,7 +27,7 @@ class TeachersController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+
                     ],
                 ],
             ]
@@ -41,12 +41,14 @@ class TeachersController extends Controller
      */
     public function actionIndex()
     {
+        $teachers= Teachers::find()->orderBy(['created_at'=>SORT_DESC])->all();
         $searchModel = new TeachersSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'teachers'=>$teachers,
         ]);
     }
 
@@ -151,15 +153,9 @@ class TeachersController extends Controller
      */
     public function actionDelete($teacher_id)
     {
-        $user = new Users();
-        $model = Teachers::findOne(['teacher_id'=>$teacher_id]);
-        $user_id= $model->user_id;
-
-
-        $this->findModel($teacher_id)->delete();
-
-        $user->findOne(['user_id'=>$user_id])->delete();
-
+        $model = Teachers::findOne($teacher_id);
+        Users::findOne($model->user_id)->delete();
+    
         return $this->redirect(['index']);
     }
 

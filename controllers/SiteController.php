@@ -12,7 +12,7 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
-    public $layout='DashboardLayout';
+    // public $layout='DashboardLayout';
       /**
      * {@inheritdoc}
      */

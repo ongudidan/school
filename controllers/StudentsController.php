@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use app\models\Students;
 use app\models\StudentsSearch;
+use app\models\Users;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,7 +26,6 @@ class StudentsController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
                     ],
                 ],
             ]
@@ -38,12 +39,14 @@ class StudentsController extends Controller
      */
     public function actionIndex()
     {
+        $students = Students::find()->all();
         $searchModel = new StudentsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'students' => $students,
         ]);
     }
 
@@ -68,10 +71,47 @@ class StudentsController extends Controller
     public function actionCreate()
     {
         $model = new Students();
+        $user = new Users();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'student_id' => $model->student_id]);
+            // Load the data into the Students model
+            if ($model->load($this->request->post())) {
+
+                // Generate and set the staff number
+                $model->student_no = Students::generateStudentId();
+
+                // Extract staff number from the Students model
+                $studentNo = $model->student_no;  // Assuming 'staff_no' is a field in the Students model
+
+                // Set User attributes
+                $user->username = $studentNo;  // Set username to staff_no
+                $user->password = Yii::$app->security->generatePasswordHash($studentNo);  // Set password to hashed staff_no
+
+                // Use a transaction to ensure both models are saved successfully
+                $transaction = Yii::$app->db->beginTransaction();
+
+                try {
+                    // Save the User model first
+                    if ($user->save()) {
+                        // Set the student_id for the User model
+                        $model->user_id = $user->user_id; // Assuming user_id is the primary key of the Users model
+
+                        // Save the Students model
+                        if ($model->save()) {
+                            $transaction->commit();
+                            return $this->redirect(['view', 'student_id' => $model->student_id]);
+                        } else {
+                            $transaction->rollBack();
+                            Yii::$app->session->setFlash('error', 'Failed to save teacher.');
+                        }
+                    } else {
+                        $transaction->rollBack();
+                        Yii::$app->session->setFlash('error', 'Failed to save user.');
+                    }
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    Yii::$app->session->setFlash('error', 'An error occurred: ' . $e->getMessage());
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -111,8 +151,8 @@ class StudentsController extends Controller
      */
     public function actionDelete($student_id)
     {
-        $this->findModel($student_id)->delete();
-
+        $model = Students::findOne($student_id);
+        Users::findOne($model->user_id)->delete();
         return $this->redirect(['index']);
     }
 
