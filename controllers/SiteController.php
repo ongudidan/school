@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Classes;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -9,6 +10,9 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Students;
+use app\models\Subjects;
+use app\models\Teachers;
 
 class SiteController extends Controller
 {
@@ -62,7 +66,17 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $teachers_count= Teachers::find()->count();
+        $students_count= Students::find()->count();
+        $classes_count= Classes::find()->count();
+        $subjects_count= Subjects::find()->count();
+
+        return $this->render('index',[
+            'teachers_count'=>$teachers_count,
+            'students_count'=>$students_count,
+            'classes_count'=>$classes_count,
+            'subjects_count'=>$subjects_count,
+        ]);
     }
 
     /**
