@@ -27,7 +27,6 @@ class DashboardAsset extends AssetBundle
       "/web/dashboard/css/custom.css",
       "/web/dashboard/bundles/bootstrap-social/bootstrap-social.css",
       "/web/dashboard/bundles/summernote/summernote-bs4.css",
-      "/web/dashboard/css/style.css",
     ];
     public $js = [
         "web/dashboard/js/app.min.js",

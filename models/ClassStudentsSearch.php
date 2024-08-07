@@ -11,13 +11,15 @@ use app\models\ClassStudents;
  */
 class ClassStudentsSearch extends ClassStudents
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['class_students_id', 'class_id', 'student_id'], 'integer'],
+            [['class_student_id', 'class_id', 'student_id'], 'integer'],
+            [['globalSearch'], 'safe'],
         ];
     }
 
@@ -55,12 +57,19 @@ class ClassStudentsSearch extends ClassStudents
             return $dataProvider;
         }
 
+        $query->joinWith('class');
+        $query->joinWith('student');
+
+
         // grid filtering conditions
         $query->andFilterWhere([
-            'class_students_id' => $this->class_students_id,
+            'class_student_id' => $this->class_student_id,
             'class_id' => $this->class_id,
             'student_id' => $this->student_id,
         ]);
+
+        $query->orFilterWhere(['like', 'classes.class_name', $this->globalSearch])
+        ->orFilterWhere(['like', 'students.student_no', $this->globalSearch]);
 
         return $dataProvider;
     }

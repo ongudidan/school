@@ -11,13 +11,15 @@ use app\models\ClassTeachers;
  */
 class ClassTeachersSearch extends ClassTeachers
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['class_teahers_id', 'class_id', 'teacher_id'], 'integer'],
+            [['class_teacher_id', 'class_id', 'teacher_id'], 'integer'],
+            ['globalSearch', 'safe'],
         ];
     }
 
@@ -55,12 +57,21 @@ class ClassTeachersSearch extends ClassTeachers
             return $dataProvider;
         }
 
+        $query->joinWith('teacher');
+        $query->joinWith('class');
+
+
         // grid filtering conditions
         $query->andFilterWhere([
-            'class_teahers_id' => $this->class_teahers_id,
+            'class_teacher_id' => $this->class_teacher_id,
             'class_id' => $this->class_id,
-            'teacher_id' => $this->teacher_id,
+            // 'teacher_id' => $this->teacher_id,
         ]);
+
+        // Filter by staff number
+        $query->orFilterWhere(['like', 'classes.class_name', $this->globalSearch])
+            ->orFilterWhere(['like', 'teachers.staff_no', $this->globalSearch]);
+
 
         return $dataProvider;
     }

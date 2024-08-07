@@ -7,21 +7,29 @@ $currentUrl = Url::current();
 
 // Define menu items
 $menuItems = [
+    ['label' => 'Home', 'icon' => 'monitor', 'url' => '/site/index'],
     ['label' => 'Users', 'icon' => 'monitor', 'url' => '/users/index'],
     ['label' => 'Teachers', 'icon'=>'command', 'url' => '/teachers/index', 'submenu' => [
         ['label' => 'All Teachers', 'url' => '/teachers/index'],
         ['label' => 'Create Teacher', 'url' => '/teachers/create'],
+        ['label' => 'Teacher Subject', 'url' => '/teacher-subjects/index'],
     ]],
     ['label' => 'Students', 'icon'=>'mail', 'url' => '/students/index', 'submenu' => [
         ['label' => 'All Students', 'url' => '/students/index'],
         ['label' => 'Create student', 'url' => '/students/create'],
     ]],
+    ['label' => 'Subjects', 'icon'=>'mail', 'url' => '/subjects/index', 'submenu' => [
+        ['label' => 'All subjects', 'url' => '/subjects/index'],
+        ['label' => 'Create Subject', 'url' => '/subjects/create'],
+
+    ]],
     ['label' => 'Classes', 'icon'=>'copy', 'url' => '#', 'submenu' => [
         ['label' => 'All classes', 'url' => '/classes/index'],
         ['label' => 'Create Class', 'url' => '/classes/create'],
+        ['label' => 'Class Teachers', 'icon' => 'heart', 'url' => '/class-teachers/index'],
+        ['label' => 'Class Students', 'icon' => 'shield', 'url' => '/class-students/index'],
     ]],
-    ['label' => 'Class Teachers', 'icon' => 'monitor', 'url' => '/class-teachers/index'],
-    ['label' => 'Class Students', 'icon' => 'monitor', 'url' => '/class-students/index'],
+
 
 ];
 ?>
@@ -29,7 +37,7 @@ $menuItems = [
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="<?= Url::to('/') ?>"> <img alt="image" src="assets/img/logo.png" class="header-logo" /> <span class="logo-name">Otika</span></a>
+            <a href="<?= Url::to('/') ?>"> <img alt="image" src="/assets/img/logo.png" class="header-logo" /> <span class="logo-name">Otika</span></a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Main</li>

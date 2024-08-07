@@ -5,11 +5,11 @@
 $this->title = 'My Yii Application';
 
 $items = [
-    ['title' => 'Total Students', 'count' => number_format(100), 'image' => 'assets/img/banner/1.png'],
-    ['title' => 'Total Teachers', 'count' => number_format(10), 'image' => 'assets/img/banner/2.png'],
-    ['title' => 'Total Classes', 'count' => number_format(20), 'image' => 'assets/img/banner/3.png'],
-    ['title' => 'Total Subjects', 'count' => number_format(15), 'image' => 'assets/img/banner/4.png'],
-    ['title' => 'Total Revenue', 'count' =>' Ksh.'.number_format(100000), 'image' => 'assets/img/banner/5.png'],
+    ['title' => 'Total Students', 'count' => number_format(100), 'image' => '/assets/img/banner/1.png'],
+    ['title' => 'Total Teachers', 'count' => number_format(10), 'image' => '/assets/img/banner/2.png'],
+    ['title' => 'Total Classes', 'count' => number_format(20), 'image' => '/assets/img/banner/3.png'],
+    ['title' => 'Total Subjects', 'count' => number_format(15), 'image' => '/assets/img/banner/4.png'],
+    ['title' => 'Total Revenue', 'count' =>' Ksh.'.number_format(100000), 'image' => '/assets/img/banner/5.png'],
 ];
 ?>
 

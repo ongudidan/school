@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\models\ClassTeachers $model */
 
-$this->title = $model->class_teahers_id;
+$this->title = $model->class_teacher_id;
 $this->params['breadcrumbs'][] = ['label' => 'Class Teachers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'class_teahers_id' => $model->class_teahers_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'class_teahers_id' => $model->class_teahers_id], [
+        <?= Html::a('Update', ['update', 'class_teahers_id' => $model->class_teacher_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'class_teahers_id' => $model->class_teacher_id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -29,9 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'class_teahers_id',
-            'class_id',
-            'teacher_id',
+            'class_teacher_id',
+            'class.class_name',
+            'teacher.staff_no',
         ],
     ]) ?>
 

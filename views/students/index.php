@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div>
     <div class="card">
         <div class="card-header">
-            <h4>Students</h4>
+            <h4><?= $this->title?></h4>
             <div class="card-header-action">
                 <form method="get" action="<?= Url::to(['index']) ?>">
                     <div class="input-group">
-                        <input type="text" name="StudentsSearch[student_no]" class="form-control" placeholder="Search by student number" value="<?= Html::encode($searchModel->student_no) ?>">
+                        <input type="text" name="StudentsSearch[globalSearch]" class="form-control" placeholder="Search" value="<?= Html::encode($searchModel->globalSearch) ?>">
                         <div class="input-group-btn">
                             <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                         </div>
@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Date of birth</th>
+                            <th>Gender</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -52,10 +53,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <td><?= Html::encode($student->first_name) ?></td>
                                 <td><?= Html::encode($student->last_name) ?></td>
                                 <td><?= Html::encode($student->dob) ?></td>
+                                <td><?= Html::encode($student->gender) ?></td>
+
                                 <td>
-                                    <a href="<?= Url::to(['students/view', 'student_id' => $student->student_id]) ?>" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="View"><i class="fas fa-eye"></i></a>
-                                    <a href="<?= Url::to(['students/update', 'student_id' => $student->student_id]) ?>" class="btn btn-success btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="<?= Url::to(['students/delete', 'student_id' => $student->student_id]) ?>" class="btn btn-danger btn-action" data-toggle="tooltip" title="Delete" data-confirm="Are You Sure?|This action can not be undone. Do you want to continue?" data-confirm-yes="alert('Deleted')"><i class="fas fa-trash"></i></a>
+                                    <div class="dropdown d-inline">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Action
+                                        </button>
+                                        <div class="dropdown-menu" x-placement="top-start" style="position: absolute; transform: translate3d(0px, -133px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                            <a class="dropdown-item has-icon" href="<?= Url::to(['students/view', 'student_id' => $student->student_id]) ?>"><i class="far fa-heart"></i> View</a>
+                                            <a class="dropdown-item has-icon" href="<?= Url::to(['students/update', 'student_id' => $student->student_id]) ?>"><i class="far fa-file"></i> Update</a>
+                                            <a class="dropdown-item has-icon" href="<?= Url::to(['students/delete', 'student_id' => $student->student_id]) ?>"><i class="far fa-clock"></i> Delete</a>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         <?php } ?>

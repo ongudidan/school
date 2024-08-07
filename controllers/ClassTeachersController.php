@@ -24,7 +24,7 @@ class ClassTeachersController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+                        // 'delete' => ['POST'],
                     ],
                 ],
             ]
@@ -49,14 +49,14 @@ class ClassTeachersController extends Controller
 
     /**
      * Displays a single ClassTeachers model.
-     * @param int $class_teahers_id Class Teahers ID
+     * @param int $class_teacher_id Class Teahers ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($class_teahers_id)
+    public function actionView($class_teacher_id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($class_teahers_id),
+            'model' => $this->findModel($class_teacher_id),
         ]);
     }
 
@@ -71,7 +71,7 @@ class ClassTeachersController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'class_teahers_id' => $model->class_teahers_id]);
+                return $this->redirect(['view', 'class_teacher_id' => $model->class_teacher_id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -85,16 +85,16 @@ class ClassTeachersController extends Controller
     /**
      * Updates an existing ClassTeachers model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $class_teahers_id Class Teahers ID
+     * @param int $class_teacher_id Class Teahers ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($class_teahers_id)
+    public function actionUpdate($class_teacher_id)
     {
-        $model = $this->findModel($class_teahers_id);
+        $model = $this->findModel($class_teacher_id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'class_teahers_id' => $model->class_teahers_id]);
+            return $this->redirect(['view', 'class_teacher_id' => $model->class_teacher_id]);
         }
 
         return $this->render('update', [
@@ -105,13 +105,13 @@ class ClassTeachersController extends Controller
     /**
      * Deletes an existing ClassTeachers model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $class_teahers_id Class Teahers ID
+     * @param int $class_teacher_id Class Teahers ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($class_teahers_id)
+    public function actionDelete($class_teacher_id)
     {
-        $this->findModel($class_teahers_id)->delete();
+        $this->findModel($class_teacher_id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -119,13 +119,13 @@ class ClassTeachersController extends Controller
     /**
      * Finds the ClassTeachers model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $class_teahers_id Class Teahers ID
+     * @param int $class_teacher_id Class Teahers ID
      * @return ClassTeachers the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($class_teahers_id)
+    protected function findModel($class_teacher_id)
     {
-        if (($model = ClassTeachers::findOne(['class_teahers_id' => $class_teahers_id])) !== null) {
+        if (($model = ClassTeachers::findOne(['class_teacher_id' => $class_teacher_id])) !== null) {
             return $model;
         }
 

@@ -25,6 +25,7 @@ class m240801_095607_create_school_tables extends Migration
         $this->createTable('{{%subjects}}', [
             'subject_id' => $this->primaryKey(),
             'subject_name' => $this->string()->notNull(),
+            'description' => $this->string()->notNull(),
             'created_at' => $this->integer()->notNull()->defaultValue(time()),
             'updated_at' => $this->integer()->notNull()->defaultValue(time()),
         ]);
@@ -32,7 +33,7 @@ class m240801_095607_create_school_tables extends Migration
         // Create teachers table
         $this->createTable('{{%teachers}}', [
             'teacher_id' => $this->primaryKey(),
-            'user_id' => $this->integer()->notNull(),
+            'user_id' => $this->integer()->notNull()->unique(),
             'first_name' => $this->string()->notNull(),
             'last_name' => $this->string()->notNull(),
             'staff_no' => $this->string()->notNull()->unique(),
@@ -48,10 +49,10 @@ class m240801_095607_create_school_tables extends Migration
         ]);
 
         // Create teacher_subject junction table
-        $this->createTable('{{%teacher_subject}}', [
+        $this->createTable('{{%teacher_subjects}}', [
+            'teacher_subject_id' => $this->primaryKey(),
             'teacher_id' => $this->integer()->notNull(),
             'subject_id' => $this->integer()->notNull(),
-            'PRIMARY KEY (teacher_id, subject_id)',
             'FOREIGN KEY ([[teacher_id]]) REFERENCES {{%teachers}} ([[teacher_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
             'FOREIGN KEY ([[subject_id]]) REFERENCES {{%subjects}} ([[subject_id]])' .
@@ -82,30 +83,30 @@ class m240801_095607_create_school_tables extends Migration
             'updated_at' => $this->integer()->notNull()->defaultValue(time()),
             'FOREIGN KEY ([[user_id]]) REFERENCES {{%users}} ([[user_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
+            'FOREIGN KEY ([[class_id]]) REFERENCES {{%classes}} ([[class_id]])' .
+                $this->buildFkClause('ON DELETE SET NULL', 'ON UPDATE CASCADE'),
         ]);
 
         // Create class_students table
         $this->createTable('{{%class_students}}', [
-            'class_students_id' => $this->primaryKey(),
-            'class_id' => $this->integer(),
-            'student_id' => $this->integer(),
+            'class_student_id' => $this->primaryKey(),
+            'class_id' => $this->integer()->notNull(),
+            'student_id' => $this->integer()->notNull(),
             'FOREIGN KEY ([[student_id]]) REFERENCES {{%students}} ([[student_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
             'FOREIGN KEY ([[class_id]]) REFERENCES {{%classes}} ([[class_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
-
         ]);
 
         // Create class_teachers table
         $this->createTable('{{%class_teachers}}', [
-            'class_teahers_id' => $this->primaryKey(),
-            'class_id' => $this->integer(),
-            'teacher_id' => $this->integer(),
+            'class_teacher_id' => $this->primaryKey(),
+            'class_id' => $this->integer()->notNull(),
+            'teacher_id' => $this->integer()->notNull(),
             'FOREIGN KEY ([[teacher_id]]) REFERENCES {{%teachers}} ([[teacher_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
             'FOREIGN KEY ([[class_id]]) REFERENCES {{%classes}} ([[class_id]])' .
                 $this->buildFkClause('ON DELETE CASCADE', 'ON UPDATE CASCADE'),
-
         ]);
 
         // Create courses table
@@ -222,7 +223,7 @@ class m240801_095607_create_school_tables extends Migration
         $this->dropTable('{{%class_students}}');
         $this->dropTable('{{%students}}');
         $this->dropTable('{{%classes}}');
-        $this->dropTable('{{%teacher_subject}}'); // Drop the new junction table
+        $this->dropTable('{{%teacher_subject}}');
         $this->dropTable('{{%teachers}}');
         $this->dropTable('{{%subjects}}');
         $this->dropTable('{{%users}}');

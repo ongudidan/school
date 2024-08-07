@@ -50,45 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Skills</h4>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-unstyled user-progress list-unstyled-border list-unstyled-noborder">
-                                <li class="media">
-                                    <div class="media-body">
-                                        <div class="media-title">Java</div>
-                                    </div>
-                                    <div class="media-progressbar p-t-10">
-                                        <div class="progress" data-height="6" style="height: 6px;">
-                                            <div class="progress-bar bg-primary" data-width="70%" style="width: 70%;"></div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="media">
-                                    <div class="media-body">
-                                        <div class="media-title">Web Design</div>
-                                    </div>
-                                    <div class="media-progressbar p-t-10">
-                                        <div class="progress" data-height="6" style="height: 6px;">
-                                            <div class="progress-bar bg-warning" data-width="80%" style="width: 80%;"></div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="media">
-                                    <div class="media-body">
-                                        <div class="media-title">Photoshop</div>
-                                    </div>
-                                    <div class="media-progressbar p-t-10">
-                                        <div class="progress" data-height="6" style="height: 6px;">
-                                            <div class="progress-bar bg-green" data-width="48%" style="width: 48%;"></div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-8">
                     <div class="card">

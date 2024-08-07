@@ -11,6 +11,7 @@ use app\models\Teachers;
  */
 class TeachersSearch extends Teachers
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -18,7 +19,7 @@ class TeachersSearch extends Teachers
     {
         return [
             [['teacher_id', 'user_id', 'dob', 'created_at', 'updated_at'], 'integer'],
-            [['first_name', 'last_name', 'staff_no', 'phone', 'email', 'gender', 'address'], 'safe'],
+            [['first_name', 'globalSearch', 'last_name', 'staff_no', 'phone', 'email', 'gender', 'address'], 'safe'],
         ];
     }
 
@@ -60,21 +61,19 @@ class TeachersSearch extends Teachers
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'teacher_id' => $this->teacher_id,
-            'user_id' => $this->user_id,
-            'dob' => $this->dob,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-        ]);
+        // $query->andFilterWhere([
+        //     'teacher_id' => $this->teacher_id,
+        //     'user_id' => $this->user_id,
+        //     'dob' => $this->dob,
+        //     'created_at' => $this->created_at,
+        //     'updated_at' => $this->updated_at,
+        // ]);
 
-        $query->andFilterWhere(['like', 'first_name', $this->first_name])
-            ->andFilterWhere(['like', 'last_name', $this->last_name])
-            ->andFilterWhere(['like', 'staff_no', $this->staff_no])
-            ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'gender', $this->gender])
-            ->andFilterWhere(['like', 'address', $this->address]);
+        $query->orFilterWhere(['like', 'first_name', $this->globalSearch])
+            ->orFilterWhere(['like', 'last_name', $this->globalSearch])
+            ->orFilterWhere(['like', 'staff_no', $this->globalSearch])
+            ->orFilterWhere(['like', 'phone', $this->globalSearch])
+            ->orFilterWhere(['like', 'email', $this->globalSearch]);
 
         return $dataProvider;
     }

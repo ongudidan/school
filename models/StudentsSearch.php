@@ -11,6 +11,7 @@ use app\models\Students;
  */
 class StudentsSearch extends Students
 {
+    public $globalSearch;
     /**
      * {@inheritdoc}
      */
@@ -18,7 +19,7 @@ class StudentsSearch extends Students
     {
         return [
             [['student_id', 'user_id', 'dob', 'class_id', 'created_at', 'updated_at'], 'integer'],
-            [['first_name', 'student_no', 'last_name', 'gender', 'address'], 'safe'],
+            [['first_name', 'globalSearch', 'student_no', 'last_name', 'gender', 'address'], 'safe'],
         ];
     }
 
@@ -69,11 +70,9 @@ class StudentsSearch extends Students
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'first_name', $this->first_name])
-            ->andFilterWhere(['like', 'last_name', $this->last_name])
-            ->andFilterWhere(['like', 'gender', $this->gender])
-            ->andFilterWhere(['like', 'student_no', $this->student_no])
-            ->andFilterWhere(['like', 'address', $this->address]);
+        $query->orFilterWhere(['like', 'first_name', $this->globalSearch])
+            ->orFilterWhere(['like', 'last_name', $this->globalSearch])
+            ->orFilterWhere(['like', 'student_no', $this->globalSearch]);
 
         return $dataProvider;
     }

@@ -43,7 +43,7 @@ class ClassTeachers extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'class_teahers_id' => 'Class Teahers ID',
+            'class_teacher_id' => 'Class Teahers ID',
             'class_id' => 'Class ID',
             'teacher_id' => 'Teacher ID',
         ];

@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "class_students".
  *
- * @property int $class_students_id
+ * @property int $class_student_id
  * @property int|null $class_id
  * @property int|null $student_id
  *
@@ -31,6 +31,7 @@ class ClassStudents extends \yii\db\ActiveRecord
     {
         return [
             [['class_id', 'student_id'], 'integer'],
+            [['class_id', 'student_id'], 'required'],
             [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Students::class, 'targetAttribute' => ['student_id' => 'student_id']],
             [['class_id'], 'exist', 'skipOnError' => true, 'targetClass' => Classes::class, 'targetAttribute' => ['class_id' => 'class_id']],
         ];
@@ -42,7 +43,7 @@ class ClassStudents extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'class_students_id' => 'Class Students ID',
+            'class_student_id' => 'Class Students ID',
             'class_id' => 'Class ID',
             'student_id' => 'Student ID',
         ];
