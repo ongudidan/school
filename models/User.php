@@ -2,38 +2,41 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use yii\base\BaseObject;
+use yii\web\IdentityInterface;
+use Yii; // Import Yii's main class
+use app\models\Users; // Import the Users model
+
+class User extends BaseObject implements IdentityInterface
 {
-    public $id;
+    public $user_id;
     public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+    public $password; // This will be the hashed password from the database
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
+    private static $users = [];
 
+    // Populate static users data
+    private static function loadUsers()
+    {
+        if (empty(self::$users)) {
+            $users = Users::find()->all(); // Fetch all users from the database
+            foreach ($users as $user) {
+                self::$users[$user->user_id] = [
+                    'user_id' => $user->user_id,
+                    'username' => $user->username,
+                    'password' => $user->password, // Store hashed password
+                ];
+            }
+        }
+    }
 
     /**
      * {@inheritdoc}
      */
-    public static function findIdentity($id)
+    public static function findIdentity($user_id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        self::loadUsers(); // Ensure users are loaded
+        return isset(self::$users[$user_id]) ? new static(self::$users[$user_id]) : null;
     }
 
     /**
@@ -41,12 +44,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
+        // Since authKey and accessToken are not used, this method can be removed or modified as needed
         return null;
     }
 
@@ -58,12 +56,12 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
+        self::loadUsers(); // Ensure users are loaded
         foreach (self::$users as $user) {
             if (strcasecmp($user['username'], $username) === 0) {
                 return new static($user);
             }
         }
-
         return null;
     }
 
@@ -72,7 +70,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function getId()
     {
-        return $this->id;
+        return $this->user_id;
     }
 
     /**
@@ -80,7 +78,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->authKey;
+        // Since authKey is not used, this method can be removed or modified as needed
+        return null;
     }
 
     /**
@@ -88,7 +87,8 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        return $this->authKey === $authKey;
+        // Since authKey is not used, this method can be removed or modified as needed
+        return false;
     }
 
     /**
@@ -99,6 +99,6 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return Yii::$app->security->validatePassword($password, $this->password);
     }
 }

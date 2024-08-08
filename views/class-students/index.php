@@ -16,8 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="class-students-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Create Class Students', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -27,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="card">
     <div class="card-header">
-        <h4>Class students</h4>
+        <h4><?= $this->title?></h4>
         <div class="card-header-action">
             <form method="get" action="<?= Url::to(['index']) ?>">
                 <div class="input-group">

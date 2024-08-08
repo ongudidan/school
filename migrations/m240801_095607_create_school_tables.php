@@ -136,7 +136,7 @@ class m240801_095607_create_school_tables extends Migration
             'student_id' => $this->integer()->notNull(),
             'class_id' => $this->integer()->notNull(),
             'date' => $this->integer()->notNull(),
-            'status' => $this->string(1)->notNull(),
+            'status' => $this->string()->notNull(),
             'created_at' => $this->integer()->notNull()->defaultValue(time()),
             'updated_at' => $this->integer()->notNull()->defaultValue(time()),
             'FOREIGN KEY ([[student_id]]) REFERENCES {{%students}} ([[student_id]])' .

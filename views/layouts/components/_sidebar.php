@@ -8,7 +8,7 @@ $currentUrl = Url::current();
 // Define menu items
 $menuItems = [
     ['label' => 'Home', 'icon' => 'monitor', 'url' => '/site/index'],
-    ['label' => 'Users', 'icon' => 'monitor', 'url' => '/users/index'],
+    // ['label' => 'Users', 'icon' => 'monitor', 'url' => '/users/index'],
     ['label' => 'Teachers', 'icon'=>'command', 'url' => '/teachers/index', 'submenu' => [
         ['label' => 'All Teachers', 'url' => '/teachers/index'],
         ['label' => 'Create Teacher', 'url' => '/teachers/create'],
@@ -28,6 +28,16 @@ $menuItems = [
         ['label' => 'Create Class', 'url' => '/classes/create'],
         ['label' => 'Class Teachers', 'icon' => 'heart', 'url' => '/class-teachers/index'],
         ['label' => 'Class Students', 'icon' => 'shield', 'url' => '/class-students/index'],
+    ]],
+    ['label' => 'Class Teachers', 'icon'=>'mail', 'url' => '/class-teachers/index', 'submenu' => [
+        ['label' => 'All class teachers', 'url' => '/class-teachers/index'],
+        ['label' => 'Create class Teacher', 'url' => '/class-teachers/create'],
+
+    ]],
+    ['label' => 'Class students', 'icon'=>'mail', 'url' => '/class-students/index', 'submenu' => [
+        ['label' => 'All class-students', 'url' => '/class-students/index'],
+        ['label' => 'Create class student', 'url' => '/class-students/create'],
+
     ]],
 
 

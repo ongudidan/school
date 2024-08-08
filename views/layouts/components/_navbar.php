@@ -1,3 +1,7 @@
+<?php
+
+use yii\helpers\Url;
+?>
 <nav class="navbar navbar-expand-lg main-navbar sticky">
     <div class="form-inline mr-auto">
         <ul class="navbar-nav mr-3">
@@ -31,7 +35,7 @@
                     Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="auth-login.html" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
+                <a href="<?= Url::to('/site/logout')?>" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
                     Logout
                 </a>
             </div>
