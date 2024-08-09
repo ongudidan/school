@@ -145,7 +145,7 @@ class Teachers extends \yii\db\ActiveRecord
      */
     public function getTeacherSubjects()
     {
-        return $this->hasMany(TeacherSubject::class, ['teacher_id' => 'teacher_id']);
+        return $this->hasMany(TeacherSubjects::class, ['teacher_id' => 'teacher_id']);
     }
 
     /**
